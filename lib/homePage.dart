@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intern/generate.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -9,41 +10,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String result = "Hello World...!";
+  String result;
   Future _scanQR() async {
     try {
       String cameraScanResult = await scanner.scan();
-      _resultAlert();
-      setState(() {
-        result =
-            cameraScanResult; // setting string result with cameraScanResult
+
+      await setState(() {
+        result = cameraScanResult;
+        // setting string result with cameraScanResult
       });
+      _launchInBrowser(result);
     } on PlatformException catch (e) {
       print(e);
     }
   }
 
-  void _resultAlert() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: Text("Scanner Result"),
-          content: Text(result),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   bool boo = false;

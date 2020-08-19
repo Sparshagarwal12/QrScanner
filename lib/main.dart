@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
-import 'package:intern/intro.dart';
+import 'package:intern/homePage.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: SplashScreen(),
     routes: <String, WidgetBuilder>{
-      '/HomeScreen': (BuildContext context) => Intro()
+      '/HomeScreen': (BuildContext context) => MyHomePage()
     },
   ));
 }

@@ -46,9 +46,10 @@ class GenerateScreenState extends State<GenerateScreen> {
   static const double _topSectionTopPadding = 50.0;
   static const double _topSectionBottomPadding = 20.0;
   static const double _topSectionHeight = 50.0;
+  bool val = false;
 
   GlobalKey globalKey = new GlobalKey();
-  String _dataString = "Hello from this QR";
+  String _dataString;
   String _inputErrorText;
   final TextEditingController _textController = TextEditingController();
 
@@ -93,8 +94,8 @@ class GenerateScreenState extends State<GenerateScreen> {
                     child: FlatButton(
                       child: Text("SUBMIT"),
                       onPressed: () {
-                        _showDialog();
                         setState(() {
+                          val = true;
                           _dataString = _textController.text;
                           _inputErrorText = null;
                         });
@@ -106,16 +107,19 @@ class GenerateScreenState extends State<GenerateScreen> {
             ),
           ),
           Expanded(
-            child: Center(
-              child: RepaintBoundary(
-                key: globalKey,
-                child: QrImage(
-                  data: _dataString,
-                  size: 0.5 * bodyHeight,
-                ),
-              ),
-            ),
-          ),
+              child: val
+                  ? Center(
+                      child: RepaintBoundary(
+                        key: globalKey,
+                        child: QrImage(
+                          data: _dataString,
+                          size: 0.5 * bodyHeight,
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 0.0,
+                    ))
         ],
       ),
     );
