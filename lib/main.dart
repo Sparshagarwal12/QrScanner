@@ -6,6 +6,15 @@ import 'package:intern/homePage.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+        appBarTheme: AppBarTheme(
+            textTheme: TextTheme(
+              title: TextStyle(fontFamily: "Josefin"),
+            ),
+            color: Colors.white,
+            centerTitle: true,
+            elevation: 0.0),
+        fontFamily: "Quicksand"),
     home: SplashScreen(),
     routes: <String, WidgetBuilder>{
       '/HomeScreen': (BuildContext context) => MyHomePage()
